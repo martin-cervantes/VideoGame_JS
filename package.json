@@ -1,0 +1,43 @@
+{
+  "name": "VideoGame_JS",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "build": "webpack",
+    "watch": "webpack --watch",
+    "start": "webpack-dev-server --watch --open"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mcervantes71/VideoGame_JS.git"
+  },"keywords": [
+    "video-games",
+    "javascript",
+    "phaser",
+    "learning"
+  ],
+  "author": "Martin Cervantes",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mcervantes71/VideoGame_JS/issues"
+  },
+  "homepage": "https://github.com/mcervantes71/VideoGame_JS#readme",
+  "devDependencies": {
+    "@babel/core": "^7.11.6",
+    "@babel/preset-env": "^7.11.5",
+    "babel-loader": "^8.1.0",
+    "clean-webpack-plugin": "^3.0.0",
+    "file-loader": "^4.3.0",
+    "html-webpack-plugin": "^3.2.0",
+    "raw-loader": "^3.1.0",
+    "terser-webpack-plugin": "^4.2.1",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0",
+    "webpack-merge": "^4.2.2"
+  },
+  "dependencies": {
+    "phaser": "^3.24.1"
+  }
+}
