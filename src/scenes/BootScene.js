@@ -1,5 +1,5 @@
 import 'phaser';
-import logoImg from '../img/logo.png';
+import phaserLogo from '../assets/img/phaserLogo.png';
 
 export default class BootScene extends Phaser.Scene {
   constructor () {
@@ -7,7 +7,7 @@ export default class BootScene extends Phaser.Scene {
   }
 
   preload () {
-    this.load.image('logo', logoImg);
+    this.load.image('logo', phaserLogo);
   }
 
   create () {

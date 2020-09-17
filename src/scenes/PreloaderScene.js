@@ -1,4 +1,9 @@
 import 'phaser';
+import bgMainMenu from '../assets/img/bgMainMenu.png';
+import bgLayer1 from '../assets/img/bgLayer1.png';
+import bgLayer2 from '../assets/img/bgLayer2.png';
+import bgLayer3 from '../assets/img/bgLayer3.png';
+import bgGameOver from '../assets/img/bgGameOver.png';
 
 export default class PreloaderScene extends Phaser.Scene {
   constructor () {
@@ -6,7 +11,7 @@ export default class PreloaderScene extends Phaser.Scene {
   }
 
   preload () {
-    this.add.image(400, 100, 'logo');
+    this.add.image(400, 100, 'phaserLogo');
 
     var progressBar = this.add.graphics();
     var progressBox = this.add.graphics();
@@ -70,8 +75,12 @@ export default class PreloaderScene extends Phaser.Scene {
 
     this.timedEvent = this.time.delayedCall(3000, this.ready, [], this);
 
-
     // load assets needed in our game
+    this.load.image('bgMainMenu', bgMainMenu);
+    this.load.image('bgLayer1', bgLayer1);
+    this.load.image('bgLayer2', bgLayer2);
+    this.load.image('bgLayer3', bgLayer3);
+    this.load.image('bgGameOver', bgGameOver);
   }
 
   init () {
