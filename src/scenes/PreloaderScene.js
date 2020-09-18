@@ -24,44 +24,21 @@ export default class PreloaderScene extends Phaser.Scene {
   preload () {
     this.add.image(400, 200, 'phaserLogo');
 
-    var progressBar = this.add.graphics();
-    var progressBox = this.add.graphics();
+    let progressBar = this.add.graphics();
+    let progressBox = this.add.graphics();
     progressBox.fillStyle(0x222222, 0.8);
     progressBox.fillRect(240, 360, 320, 50);
 
-    var width = this.cameras.main.width;
-    var height = this.cameras.main.height;
-    var loadingText = this.make.text({
-      x: 400,
-      y: 340,
-      text: 'Loading...',
-      style: {
-        font: '20px monospace',
-        fill: '#fff'
-      }
-    });
+    let width = this.cameras.main.width;
+    let height = this.cameras.main.height;
+
+    let loadingText = this.make.text({ x: 400, y: 340, text: 'Loading...', style: { font: '20px monospace', fill: '#fff' } });
     loadingText.setOrigin(0.5, 0.5);
 
-    var percentText = this.make.text({
-      x: 400,
-      y: 385,
-      text: '0%',
-      style: {
-        font: '18px monospace',
-        fill: '#fff'
-      }
-    });
+    let percentText = this.make.text({ x: 400, y: 385, text: '0%', style: { font: '18px monospace', fill: '#fff' } });
     percentText.setOrigin(0.5, 0.5);
 
-    var assetText = this.make.text({
-      x: 400,
-      y: 430,
-      text: '',
-      style: {
-        font: '18px monospace',
-        fill: '#fff'
-      }
-    });
+    let assetText = this.make.text({ x: 400, y: 430, text: '', style: { font: '18px monospace', fill: '#fff' } });
     assetText.setOrigin(0.5, 0.5);
 
     this.load.on('progress', function (value) {
@@ -76,15 +53,10 @@ export default class PreloaderScene extends Phaser.Scene {
     });
 
     this.load.on('complete', function () {
-      progressBar.destroy();
-      progressBox.destroy();
-      loadingText.destroy();
-      percentText.destroy();
-      assetText.destroy();
       this.ready();
     }.bind(this));
 
-    this.timedEvent = this.time.delayedCall(2000, this.ready, [], this);
+    this.timedEvent = this.time.delayedCall(200, this.ready, [], this);
 
     // load assets needed in our game
     this.load.image('bgMainMenu', bgMainMenu);
@@ -107,7 +79,7 @@ export default class PreloaderScene extends Phaser.Scene {
   ready () {
     this.readyCount++;
     if (this.readyCount === 2) {
-      this.scene.start('Title');
+      this.scene.start('Game');
     }
   }
 };
