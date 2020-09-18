@@ -5,9 +5,20 @@ import bgLayer2 from '../assets/img/bgLayer2.png';
 import bgLayer3 from '../assets/img/bgLayer3.png';
 import bgGameOver from '../assets/img/bgGameOver.png';
 
+import btnPlay from '../assets/img/btnPlay.png';
+import btnPlay0 from '../assets/img/btnPlay0.png';
+import btnOptions from '../assets/img/btnOptions.png';
+import btnOptions0 from '../assets/img/btnOptions0.png';
+import btnCredits from '../assets/img/btnCredits.png';
+import btnCredits0 from '../assets/img/btnCredits0.png';
+
 export default class PreloaderScene extends Phaser.Scene {
   constructor () {
     super('Preloader');
+  }
+
+  init () {
+    this.readyCount = 0;
   }
 
   preload () {
@@ -26,7 +37,7 @@ export default class PreloaderScene extends Phaser.Scene {
       text: 'Loading...',
       style: {
         font: '20px monospace',
-        fill: '#ffffff'
+        fill: '#fff'
       }
     });
     loadingText.setOrigin(0.5, 0.5);
@@ -37,7 +48,7 @@ export default class PreloaderScene extends Phaser.Scene {
       text: '0%',
       style: {
         font: '18px monospace',
-        fill: '#ffffff'
+        fill: '#fff'
       }
     });
     percentText.setOrigin(0.5, 0.5);
@@ -48,7 +59,7 @@ export default class PreloaderScene extends Phaser.Scene {
       text: '',
       style: {
         font: '18px monospace',
-        fill: '#ffffff'
+        fill: '#fff'
       }
     });
     assetText.setOrigin(0.5, 0.5);
@@ -56,7 +67,7 @@ export default class PreloaderScene extends Phaser.Scene {
     this.load.on('progress', function (value) {
       percentText.setText(parseInt(value * 100) + '%');
       progressBar.clear();
-      progressBar.fillStyle(0xffffff, 1);
+      progressBar.fillStyle(0xfff, 1);
       progressBar.fillRect(250, 370, 300 * value, 30);
     });
 
@@ -81,10 +92,16 @@ export default class PreloaderScene extends Phaser.Scene {
     this.load.image('bgLayer2', bgLayer2);
     this.load.image('bgLayer3', bgLayer3);
     this.load.image('bgGameOver', bgGameOver);
+
+    this.load.image('btnPlay', btnPlay);
+    this.load.image('btnPlay0', btnPlay0);
+    this.load.image('btnOptions', btnOptions);
+    this.load.image('btnOptions0', btnOptions0);
+    this.load.image('btnCredits', btnCredits);
+    this.load.image('btnCredits0', btnCredits0);
   }
 
-  init () {
-    this.readyCount = 0;
+  create () {
   }
 
   ready () {
@@ -92,8 +109,5 @@ export default class PreloaderScene extends Phaser.Scene {
     if (this.readyCount === 2) {
       this.scene.start('Title');
     }
-  }
-
-  create () {
   }
 };
