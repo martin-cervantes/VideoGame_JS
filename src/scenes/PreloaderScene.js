@@ -12,6 +12,11 @@ import btnOptions0 from '../assets/img/btnOptions0.png';
 import btnCredits from '../assets/img/btnCredits.png';
 import btnCredits0 from '../assets/img/btnCredits0.png';
 
+import shipAnimation from '../assets/img/shipAnimation.png';
+import mineAnimation from '../assets/img/mineAnimation.png';
+import explosionAnimation from '../assets/img/explosionAnimation.png';
+import laser from '../assets/img/laser.png';
+
 export default class PreloaderScene extends Phaser.Scene {
   constructor () {
     super('Preloader');
@@ -71,6 +76,11 @@ export default class PreloaderScene extends Phaser.Scene {
     this.load.image('btnOptions0', btnOptions0);
     this.load.image('btnCredits', btnCredits);
     this.load.image('btnCredits0', btnCredits0);
+
+    this.load.spritesheet('shipAnimation', shipAnimation, { frameWidth: 115, frameHeight: 69 });
+    this.load.spritesheet('mineAnimation', mineAnimation, { frameWidth: 47, frameHeight: 61 });
+    this.load.spritesheet('explosionAnimation', explosionAnimation, { frameWidth: 134, frameHeight: 134 });
+    this.load.image('laser', laser);
   }
 
   create () {
