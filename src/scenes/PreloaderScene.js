@@ -1,4 +1,10 @@
 import 'phaser';
+import menuMusic from '../assets/audio/menuMusic.mp3';
+import gameMusic from '../assets/audio/gameMusic.mp3';
+import laserFire from '../assets/audio/laserFire.wav'
+import explosionSound from '../assets/audio/explosionSound.wav';
+import popUpSound from '../assets/audio/popUpSound.wav';
+
 import bgMainMenu from '../assets/img/bgMainMenu.png';
 import bgLayer1 from '../assets/img/bgLayer1.png';
 import bgLayer2 from '../assets/img/bgLayer2.png';
@@ -64,6 +70,12 @@ export default class PreloaderScene extends Phaser.Scene {
     this.timedEvent = this.time.delayedCall(200, this.ready, [], this);
 
     // load assets needed in our game
+    this.load.audio('gameMusic', gameMusic);
+    this.load.audio('gameMusic', gameMusic);
+    this.load.audio('laserFire', laserFire);
+    this.load.audio('explosionSound', explosionSound);
+    this.load.audio('popUpSound', popUpSound);
+
     this.load.image('bgMainMenu', bgMainMenu);
     this.load.image('bgLayer1', bgLayer1);
     this.load.image('bgLayer2', bgLayer2);

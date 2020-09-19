@@ -11,7 +11,8 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mcervantes71/VideoGame_JS.git"
-  },"keywords": [
+  },
+  "keywords": [
     "video-games",
     "javascript",
     "phaser",
@@ -38,6 +39,7 @@
     "webpack-merge": "^4.2.2"
   },
   "dependencies": {
+    "audio-loader": "^1.0.3",
     "phaser": "^3.24.1"
   }
 }

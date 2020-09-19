@@ -12,6 +12,10 @@ export default class GameScene extends Phaser.Scene {
   }
 
   create () {
+    this.sfx = this.sound.add('gameMusic');
+    this.sfx.loop = true;
+    this.sfx.play();
+
     this.anims.create({
       key: 'shipMove',
       frames: this.anims.generateFrameNumbers('shipAnimation', {
