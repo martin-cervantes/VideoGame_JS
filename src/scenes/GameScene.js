@@ -5,6 +5,14 @@ export default class GameScene extends Phaser.Scene {
     super('Game');
   }
 
+  init() {
+    this.up = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
+    this.down = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
+    this.left = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
+    this.right = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+    this.space = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+  }
+
   preload () {
     this.bgLayer3 = this.add.tileSprite(400, 240, 0, 0, 'bgLayer3');
     this.bgLayer1 = this.add.tileSprite(400, 240, 0, 0, 'bgLayer1');
@@ -53,5 +61,33 @@ export default class GameScene extends Phaser.Scene {
     this.explosion.anims.play('explosion', true);
 
     this.laser = this.add.tileSprite(400, 200, 0, 0, 'laser');
+  }
+
+  update() {
+    this.handleInput();
+
+    // this.updatePlayer();
+
+    // this.updateEnemies();
+    //
+    // this.updateProjectiles()
+    //
+    // this.updateCollisions();
+    //
+    // this.updateExplosions();
+  }
+
+  handleInput () {
+    if (this.up.isDown) {
+      console.log('up');
+    } else if (this.down.isDown) {
+      console.log('down');
+    } else if (this.left.isDown) {
+      console.log('left');
+    } else if (this.right.isDown) {
+      console.log('right');
+    } else if (this.space.isDown) {
+      console.log('space');
+    }
   }
 };
