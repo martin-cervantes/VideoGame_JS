@@ -1,5 +1,6 @@
 import 'phaser';
 import Player from '../game/player';
+import Enemy from '../game/enemy';
 
 export default class GameScene extends Phaser.Scene {
   constructor () {
@@ -44,8 +45,9 @@ export default class GameScene extends Phaser.Scene {
       frameRate: 20,
       repeat: -1
     });
-    this.enemy = this.physics.add.sprite(700, 200, 'mineAnimation');
-    this.enemy.anims.play('mineMove', true);
+    this.enemy = new Enemy();
+    this.enemy.animation = this.physics.add.sprite(700, 200, 'mineAnimation');
+    this.enemy.animation.anims.play('mineMove', true);
 
     this.anims.create({
       key: 'explosion',
@@ -64,6 +66,8 @@ export default class GameScene extends Phaser.Scene {
 
   update() {
     this.handleInput();
+
+    this.enemy.animation.x -= this.enemy.speed;
 
     // this.updatePlayer();
 
