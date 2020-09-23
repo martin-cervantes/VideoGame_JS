@@ -1,4 +1,5 @@
 import 'phaser';
+import Player from '../game/player';
 
 export default class GameScene extends Phaser.Scene {
   constructor () {
@@ -6,10 +7,7 @@ export default class GameScene extends Phaser.Scene {
   }
 
   init() {
-    this.up = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
-    this.down = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
-    this.left = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
-    this.right = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+    this.cursorKeys = this.input.keyboard.createCursorKeys();
     this.space = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
   }
 
@@ -22,7 +20,7 @@ export default class GameScene extends Phaser.Scene {
   create () {
     this.sfx = this.sound.add('gameMusic');
     this.sfx.loop = true;
-    this.sfx.play();
+    // this.sfx.play();
 
     this.anims.create({
       key: 'shipMove',
@@ -33,8 +31,9 @@ export default class GameScene extends Phaser.Scene {
       frameRate: 20,
       repeat: -1
     });
-    this.player = this.physics.add.sprite(300, 200, 'shipAnimation');
-    this.player.anims.play('shipMove', true);
+    this.player = new Player();
+    this.player.animation = this.physics.add.sprite(300, 200, 'shipAnimation');
+    this.player.animation.anims.play('shipMove', true);
 
     this.anims.create({
       key: 'mineMove',
@@ -78,16 +77,21 @@ export default class GameScene extends Phaser.Scene {
   }
 
   handleInput () {
-    if (this.up.isDown) {
-      console.log('up');
-    } else if (this.down.isDown) {
-      console.log('down');
-    } else if (this.left.isDown) {
-      console.log('left');
-    } else if (this.right.isDown) {
-      console.log('right');
-    } else if (this.space.isDown) {
+    if (this.cursorKeys.up.isDown && this.player.animation.y > 35) {
+      this.player.animation.y -= this.player.speed;
+    } else if (this.cursorKeys.down.isDown && this.player.animation.y < 435) {
+      this.player.animation.y += this.player.speed;
+    }
+
+    if (this.cursorKeys.left.isDown && this.player.animation.x > 45) {
+      this.player.animation.x -= this.player.speed;
+    } else if (this.cursorKeys.right.isDown && this.player.animation.x < 750) {
+      this.player.animation.x += this.player.speed;
+    }
+
+    if (Phaser.Input.Keyboard.JustDown(this.space)) {
       console.log('space');
+      // this.player.animation.setActive(false).setVisible(false);
     }
   }
 };
