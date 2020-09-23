@@ -1,6 +1,7 @@
 import 'phaser';
 import Player from '../game/player';
 import Enemy from '../game/enemy';
+import Explosion from '../game/explosion';
 
 export default class GameScene extends Phaser.Scene {
   constructor () {
@@ -56,10 +57,11 @@ export default class GameScene extends Phaser.Scene {
         end: 10,
       }),
       frameRate: 20,
-      repeat: -1
+      repeat: 0
     });
-    this.explosion = this.physics.add.sprite(100, 100, 'explosionAnimation');
-    this.explosion.anims.play('explosion', true);
+    this.explosion = new Explosion();
+    this.explosion.animation = this.physics.add.sprite(100, 100, 'explosionAnimation');
+    this.explosion.animation.anims.play('explosion', true);
 
     this.laser = this.add.tileSprite(400, 200, 0, 0, 'laser');
   }
