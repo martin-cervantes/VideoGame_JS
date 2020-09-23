@@ -1,5 +1,6 @@
 import 'phaser';
 import Player from '../game/player';
+import Projectile from '../game/projectile';
 import Enemy from '../game/enemy';
 import Explosion from '../game/explosion';
 
@@ -63,13 +64,16 @@ export default class GameScene extends Phaser.Scene {
     this.explosion.animation = this.physics.add.sprite(100, 100, 'explosionAnimation');
     this.explosion.animation.anims.play('explosion', true);
 
-    this.laser = this.add.tileSprite(400, 200, 0, 0, 'laser');
+    this.laser = new Projectile();
+    this.laser.img = this.add.tileSprite(400, 200, 0, 0, 'laser');
   }
 
   update() {
     this.handleInput();
 
     this.enemy.animation.x -= this.enemy.speed;
+
+    this.laser.img.x += this.laser.speed;
 
     // this.updatePlayer();
 
