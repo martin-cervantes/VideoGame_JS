@@ -12,12 +12,16 @@ export default class GameScene extends Phaser.Scene {
   init() {
     this.cursorKeys = this.input.keyboard.createCursorKeys();
     this.space = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+
+    this.enemies = [];
+    this.projectiles = [];
+    this.explosions = [];
   }
 
   preload () {
     this.bgLayer3 = this.add.tileSprite(400, 240, 0, 0, 'bgLayer3');
-    this.bgLayer1 = this.add.tileSprite(400, 240, 0, 0, 'bgLayer1');
-    this.bgLayer2 = this.add.tileSprite(400, 240, 0, 0, 'bgLayer2');
+    this.bgLayer1 = this.add.tileSprite(400, 240, 800, 480, 'bgLayer1');
+    this.bgLayer2 = this.add.tileSprite(400, 240, 800, 480, 'bgLayer2');
   }
 
   create () {
@@ -35,7 +39,7 @@ export default class GameScene extends Phaser.Scene {
       repeat: -1
     });
     this.player = new Player();
-    this.player.animation = this.physics.add.sprite(300, 200, 'shipAnimation');
+    this.player.animation = this.physics.add.sprite(60, 230, 'shipAnimation');
     this.player.animation.anims.play('shipMove', true);
 
     this.anims.create({
@@ -49,6 +53,7 @@ export default class GameScene extends Phaser.Scene {
     });
     this.enemy = new Enemy();
     this.enemy.animation = this.physics.add.sprite(700, 200, 'mineAnimation');
+    this.enemy.animation.y = Phaser.Math.Between(35, 435);
     this.enemy.animation.anims.play('mineMove', true);
 
     this.anims.create({
@@ -62,28 +67,41 @@ export default class GameScene extends Phaser.Scene {
     });
     this.explosion = new Explosion();
     this.explosion.animation = this.physics.add.sprite(100, 100, 'explosionAnimation');
-    this.explosion.animation.anims.play('explosion', true);
+    this.explosion.animation.anims.play('explosion', false);
+    this.explosion.animation.on('animationcomplete', () => this.explosion.animation.destroy());
+  }
 
-    this.laser = new Projectile();
-    this.laser.img = this.add.tileSprite(400, 200, 0, 0, 'laser');
+  addEnemies() {
+  }
+
+  addProjectiles(x, y) {
+    const sfx = this.sound.add('laserFire');
+    sfx.play();
+
+    const laser = new Projectile();
+    laser.img = this.add.image(x, y, 'laser');
+
+    this.projectiles.push(laser);
+
+  }
+
+  addExplosions() {
   }
 
   update() {
+    // this.bgLayer1.titlePositionX -= 1;
+    // this.bgLayer2.titlePositionX -= 0.5;
     this.handleInput();
 
-    this.enemy.animation.x -= this.enemy.speed;
+    this.updatePlayer();
 
-    this.laser.img.x += this.laser.speed;
+    this.updateEnemies();
 
-    // this.updatePlayer();
+    this.updateProjectiles();
 
-    // this.updateEnemies();
-    //
-    // this.updateProjectiles()
-    //
-    // this.updateCollisions();
-    //
-    // this.updateExplosions();
+    this.updateCollisions();
+
+    this.updateExplosions();
   }
 
   handleInput () {
@@ -100,8 +118,32 @@ export default class GameScene extends Phaser.Scene {
     }
 
     if (Phaser.Input.Keyboard.JustDown(this.space)) {
-      console.log('space');
+      this.addProjectiles(this.player.animation.x + 65, this.player.animation.y);
       // this.player.animation.setActive(false).setVisible(false);
     }
+  }
+
+  updatePlayer() {
+  }
+
+  updateEnemies() {
+    this.enemy.animation.x -= this.enemy.speed;
+  }
+
+  updateProjectiles() {
+    this.projectiles.forEach( (p, i) => {
+      p.img.x += p.speed;
+
+      if (p.img.x > 800) {
+        p.img.destroy();
+        this.projectiles.splice(i, 1);
+      }
+    });
+  }
+
+  updateCollisions() {
+  }
+
+  updateExplosions() {
   }
 };
