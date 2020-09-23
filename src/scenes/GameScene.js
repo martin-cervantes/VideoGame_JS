@@ -13,6 +13,7 @@ export default class GameScene extends Phaser.Scene {
     this.cursorKeys = this.input.keyboard.createCursorKeys();
     this.space = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
+    this.time = 0;
     this.enemies = [];
     this.projectiles = [];
     this.explosions = [];
@@ -41,6 +42,7 @@ export default class GameScene extends Phaser.Scene {
     this.player = new Player();
     this.player.animation = this.physics.add.sprite(60, 230, 'shipAnimation');
     this.player.animation.anims.play('shipMove', true);
+    this.player.laser = this.sound.add('laserFire');
 
     this.anims.create({
       key: 'mineMove',
@@ -51,10 +53,6 @@ export default class GameScene extends Phaser.Scene {
       frameRate: 20,
       repeat: -1
     });
-    this.enemy = new Enemy();
-    this.enemy.animation = this.physics.add.sprite(700, 200, 'mineAnimation');
-    this.enemy.animation.y = Phaser.Math.Between(35, 435);
-    this.enemy.animation.anims.play('mineMove', true);
 
     this.anims.create({
       key: 'explosion',
@@ -72,17 +70,21 @@ export default class GameScene extends Phaser.Scene {
   }
 
   addEnemies() {
+    const enemy = new Enemy();
+    enemy.animation = this.physics.add.sprite(800, 200, 'mineAnimation');
+    enemy.animation.y = Phaser.Math.Between(35, 435);
+    enemy.animation.anims.play('mineMove', true);
+
+    this.enemies.push(enemy);
   }
 
   addProjectiles(x, y) {
-    const sfx = this.sound.add('laserFire');
-    sfx.play();
+    this.player.laser.play();
 
     const laser = new Projectile();
     laser.img = this.add.image(x, y, 'laser');
 
     this.projectiles.push(laser);
-
   }
 
   addExplosions() {
@@ -127,7 +129,18 @@ export default class GameScene extends Phaser.Scene {
   }
 
   updateEnemies() {
-    this.enemy.animation.x -= this.enemy.speed;
+    this.time += 1;
+
+    if (this.time % 150 === 0) this.addEnemies();
+
+    this.enemies.forEach( (e, i) => {
+      e.animation.x -= e.speed;
+
+      if (e.animation.x < 0) {
+        e.animation.destroy();
+        this.enemies.splice(i, 1);
+      }
+    });
   }
 
   updateProjectiles() {
