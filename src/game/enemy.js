@@ -1,5 +1,10 @@
-export default class Enemy {
-  constructor () {
+export default class Enemy extends Phaser.GameObjects.Sprite {
+  constructor (scene, x, y, texture) {
+    super(scene, x, y, texture);
+    scene.add.existing(this);
+
+    this.y = Phaser.Math.Between(35, 435);
+
     this._health = 10;
     this._danger = 10;
     this._value = 100;

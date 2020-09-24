@@ -1,8 +1,10 @@
-export default class Projectile {
-  constructor () {
+export default class Projectile extends Phaser.GameObjects.Image  {
+  constructor (scene, x, y, texture) {
+    super(scene, x, y, texture);
+    scene.add.existing(this);
+
     this._damage = 5;
     this._speed = 8;
-    this._img = '';
   }
 
   get damage () {
@@ -13,19 +15,11 @@ export default class Projectile {
     return this._speed;
   }
 
-  get img () {
-    return this._img;
-  }
-
-  set img (img) {
-    this._img = img;
-  }
-
   checkCollision (enemy) {
-    if (this._img.x + 22 >= enemy.animation.x - 22 &&
-        this._img.x + 22 <= enemy.animation.x &&
-        this._img.y >= enemy.animation.y - 35 &&
-        this._img.y <= enemy.animation.y + 38) {
+    if (this.x + 22 >= enemy.x - 22 &&
+        this.x + 22 <= enemy.x &&
+        this.y >= enemy.y - 35 &&
+        this.y <= enemy.y + 38) {
       return true;
     }
     return false;

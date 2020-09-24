@@ -4,6 +4,8 @@ import Projectile from '../game/projectile';
 import Enemy from '../game/enemy';
 import Explosion from '../game/explosion';
 
+import Sound from '../game/sound';
+
 export default class GameScene extends Phaser.Scene {
   constructor () {
     super('Game');
@@ -25,9 +27,12 @@ export default class GameScene extends Phaser.Scene {
   }
 
   create () {
-    this.sfx = this.sound.add('gameMusic');
-    this.sfx.loop = true;
-    this.sfx.play();
+    this.backgoundMusic = new Sound(this, this.sound, 'gameMusic', true);
+    this.backgoundMusic.play();
+
+    this.laser = new Sound(this, this.sound, 'laserFire', false);
+
+    this.explosion = new Sound(this, this.sound, 'explosionSound', false);
 
     this.anims.create({
       key: 'shipMove',
@@ -38,11 +43,8 @@ export default class GameScene extends Phaser.Scene {
       frameRate: 20,
       repeat: -1
     });
-    this.player = new Player();
-    this.player.animation = this.physics.add.sprite(60, 230, 'shipAnimation');
-    this.player.animation.anims.play('shipMove', true);
-    this.player.laser = this.sound.add('laserFire');
-    this.player.explosion = this.sound.add('explosionSound');
+    this.player = new Player(this, 60, 230, 'shipAnimation');
+    this.player.anims.play('shipMove', true);
 
     this.anims.create({
       key: 'mineMove',
@@ -70,35 +72,29 @@ export default class GameScene extends Phaser.Scene {
   }
 
   addEnemies() {
-    const enemy = new Enemy();
-    enemy.animation = this.physics.add.sprite(800, 200, 'mineAnimation');
-    enemy.animation.y = Phaser.Math.Between(35, 435);
-    enemy.animation.anims.play('mineMove', true);
+    const enemy = new Enemy(this, 800, 200, 'mineAnimation');
+    enemy.anims.play('mineMove', true);
 
     this.enemies.push(enemy);
   }
 
   addProjectiles(x, y) {
-    this.player.laser.play();
+    this.laser.play();
 
-    const laser = new Projectile();
-    laser.img = this.add.image(x, y, 'laser');
+    const laser = new Projectile(this, x, y, 'laser');
 
     this.projectiles.push(laser);
   }
 
   addExplosions(x, y) {
-    this.player.explosion.play();
+    this.explosion.play();
 
-    const explosion = new Explosion();
-    explosion.animation = this.physics.add.sprite(x, y, 'explosionAnimation');
-    explosion.animation.anims.play('explosion', true);
-    explosion.animation.on('animationcomplete', () => explosion.animation.destroy());
+    const explosion = new Explosion(this, x, y, 'explosionAnimation');
+    explosion.anims.play('explosion', true);
+    explosion.on('animationcomplete', () => explosion.destroy());
   }
 
   update() {
-    // this.bgLayer1.titlePositionX -= 1;
-    // this.bgLayer2.titlePositionX -= 0.5;
     this.handleInput();
 
     this.updatePlayer();
@@ -111,21 +107,20 @@ export default class GameScene extends Phaser.Scene {
   }
 
   handleInput () {
-    if (this.cursorKeys.up.isDown && this.player.animation.y > 35) {
-      this.player.animation.y -= this.player.speed;
-    } else if (this.cursorKeys.down.isDown && this.player.animation.y < 435) {
-      this.player.animation.y += this.player.speed;
+    if (this.cursorKeys.up.isDown && this.player.y > 35) {
+      this.player.y -= this.player.speed;
+    } else if (this.cursorKeys.down.isDown && this.player.y < 435) {
+      this.player.y += this.player.speed;
     }
 
-    if (this.cursorKeys.left.isDown && this.player.animation.x > 45) {
-      this.player.animation.x -= this.player.speed;
-    } else if (this.cursorKeys.right.isDown && this.player.animation.x < 750) {
-      this.player.animation.x += this.player.speed;
+    if (this.cursorKeys.left.isDown && this.player.x > 45) {
+      this.player.x -= this.player.speed;
+    } else if (this.cursorKeys.right.isDown && this.player.x < 750) {
+      this.player.x += this.player.speed;
     }
 
     if (Phaser.Input.Keyboard.JustDown(this.space)) {
-      this.addProjectiles(this.player.animation.x + 65, this.player.animation.y);
-      // this.player.animation.setActive(false).setVisible(false);
+      this.addProjectiles(this.player.x + 65, this.player.y);
     }
   }
 
@@ -135,15 +130,15 @@ export default class GameScene extends Phaser.Scene {
   updateEnemies() {
     this.time += 1;
 
-    const dif = 150; // Math.floor(150 / (this.player._score / 500 + 1));
+    const dif = 150; // Math.floor(150 / (this.player.score / 500 + 1));
 
     if (this.time % dif === 0) this.addEnemies();
 
     this.enemies.forEach( (e, i) => {
-      e.animation.x -= e.speed;
+      e.x -= e.speed;
 
-      if (e.animation.x < 0) {
-        e.animation.destroy();
+      if (e.x < 0) {
+        e.destroy();
         this.enemies.splice(i, 1);
       }
     });
@@ -151,10 +146,10 @@ export default class GameScene extends Phaser.Scene {
 
   updateProjectiles() {
     this.projectiles.forEach( (p, i) => {
-      p.img.x += p.speed;
+      p.x += p.speed;
 
-      if (p.img.x > 800) {
-        p.img.destroy();
+      if (p.x > 800) {
+        p.destroy();
         this.projectiles.splice(i, 1);
       }
     });
@@ -165,15 +160,15 @@ export default class GameScene extends Phaser.Scene {
       this.enemies.forEach((e, j) => {
         if (p.checkCollision(e)) {
           if (e.directDamage(p.damage) <= 0) {
-            this.addExplosions(e.animation.x, e.animation.y);
+            this.addExplosions(e.x, e.y);
 
-            this.scoreLabel.setText('Score: ' + this.player.score(e.value));
+            this.scoreLabel.setText('Score: ' + this.player.calcScore(e.value));
 
-            e.animation.destroy();
+            e.destroy();
             this.enemies.splice(j, 1);
           }
 
-          p.img.destroy();
+          p.destroy();
           this.projectiles.splice(i, 1);
           return;
         }

@@ -1,10 +1,8 @@
-export default class Explosion {
-  constructor () {
-    this._active = true;
-    this._danger = 50;
-  }
+export default class Explosion extends Phaser.GameObjects.Sprite {
+  constructor (scene, x, y, texture) {
+    super(scene, x, y, texture);
+    scene.add.existing(this);
 
-  get isActive () {
-    return this._active;
+    this._danger = 50;
   }
 }
