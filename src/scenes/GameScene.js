@@ -42,6 +42,7 @@ export default class GameScene extends Phaser.Scene {
     this.player.animation = this.physics.add.sprite(60, 230, 'shipAnimation');
     this.player.animation.anims.play('shipMove', true);
     this.player.laser = this.sound.add('laserFire');
+    this.player.explosion = this.sound.add('explosionSound');
 
     this.anims.create({
       key: 'mineMove',
@@ -86,7 +87,7 @@ export default class GameScene extends Phaser.Scene {
     const explosion = new Explosion();
     explosion.animation = this.physics.add.sprite(x, y, 'explosionAnimation');
     explosion.animation.anims.play('explosion', true);
-    explosion.animation.on('animationcomplete', () => this.explosion.animation.destroy());
+    explosion.animation.on('animationcomplete', () => explosion.animation.destroy());
   }
 
   update() {
@@ -155,12 +156,20 @@ export default class GameScene extends Phaser.Scene {
 
   updateCollisions() {
     this.projectiles.forEach((p, i) => {
-      this.enemies.forEach((e, i) => {
+      this.enemies.forEach((e, j) => {
         if (this.Collision(p, e)) {
+          console.log(e._health);
+          if (e.directDamage(p.damage) <= 0) {
+            console.log(e._health);
+            this.addExplosions(e.animation.x, e.animation.y);
+            this.player.explosion.play();
+
+            e.animation.destroy();
+            this.enemies.splice(j, 1);
+          }
           p.img.destroy();
+          this.projectiles.splice(i, 1);
           return;
-          // e.animation.destroy();
-          // this.enemies.splice(i, 1);
         }
       });
     });

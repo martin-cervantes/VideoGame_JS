@@ -1,9 +1,9 @@
 export default class Explosion {
   constructor () {
-    this._active = true;
+    this.active = true;
   }
 
   get isActive () {
-    return this._active;
+    return this.active;
   }
 }

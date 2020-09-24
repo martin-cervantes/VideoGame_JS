@@ -1,15 +1,19 @@
 export default class Projectile {
   constructor () {
-    this._active = true;
-    this._damage = 5;
-    this._speed = 8;
+    this.active = true;
+    this.damage = 5;
+    this.speed = 8;
+  }
+
+  get damage () {
+    return this.damage;
   }
 
   get speed () {
-    return this._speed;
+    return this.speed;
   }
 
   get isActive () {
-    return this._active;
+    return this.active;
   }
 }
