@@ -27,7 +27,7 @@ export default class GameScene extends Phaser.Scene {
   create () {
     this.sfx = this.sound.add('gameMusic');
     this.sfx.loop = true;
-    // this.sfx.play();
+    this.sfx.play();
 
     this.anims.create({
       key: 'shipMove',
@@ -63,6 +63,10 @@ export default class GameScene extends Phaser.Scene {
       frameRate: 20,
       repeat: 0
     });
+
+    this.lifesLabel = this.make.text({ x: 10, y: 5, text: 'Lifes: 3', style: { font: '20px monospace', fill: '#fff' } });
+    this.healthLabel = this.make.text({ x: 10, y: 30, text: 'Health: 100', style: { font: '20px monospace', fill: '#fff' } });
+    this.scoreLabel = this.make.text({ x: 10, y: 55, text: 'Score: 0', style: { font: '20px monospace', fill: '#fff' } });
   }
 
   addEnemies() {
@@ -84,6 +88,8 @@ export default class GameScene extends Phaser.Scene {
   }
 
   addExplosions(x, y) {
+    this.player.explosion.play();
+
     const explosion = new Explosion();
     explosion.animation = this.physics.add.sprite(x, y, 'explosionAnimation');
     explosion.animation.anims.play('explosion', true);
@@ -102,8 +108,6 @@ export default class GameScene extends Phaser.Scene {
     this.updateProjectiles();
 
     this.updateCollisions();
-
-    this.updateExplosions();
   }
 
   handleInput () {
@@ -131,7 +135,9 @@ export default class GameScene extends Phaser.Scene {
   updateEnemies() {
     this.time += 1;
 
-    if (this.time % 150 === 0) this.addEnemies();
+    const dif = 150; // Math.floor(150 / (this.player._score / 500 + 1));
+
+    if (this.time % dif === 0) this.addEnemies();
 
     this.enemies.forEach( (e, i) => {
       e.animation.x -= e.speed;
@@ -157,34 +163,21 @@ export default class GameScene extends Phaser.Scene {
   updateCollisions() {
     this.projectiles.forEach((p, i) => {
       this.enemies.forEach((e, j) => {
-        if (this.Collision(p, e)) {
-          console.log(e._health);
+        if (p.checkCollision(e)) {
           if (e.directDamage(p.damage) <= 0) {
-            console.log(e._health);
             this.addExplosions(e.animation.x, e.animation.y);
-            this.player.explosion.play();
+
+            this.scoreLabel.setText('Score: ' + this.player.score(e.value));
 
             e.animation.destroy();
             this.enemies.splice(j, 1);
           }
+
           p.img.destroy();
           this.projectiles.splice(i, 1);
           return;
         }
       });
     });
-  }
-
-  Collision (projectile, enemy) {
-    if (projectile.img.x + 22 >= enemy.animation.x - 22 &&
-        projectile.img.x + 22 <= enemy.animation.x &&
-        projectile.img.y >= enemy.animation.y - 35 &&
-        projectile.img.y <= enemy.animation.y + 38) {
-      return true;
-    }
-    return false;
-  }
-
-  updateExplosions() {
   }
 };

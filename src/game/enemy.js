@@ -1,28 +1,22 @@
 export default class Enemy {
   constructor () {
-    this.active = true;
-    this.health = 10;
-    this.danger = 10;
-    this.value = 100;
-    this.speed = 1.5;
+    this._health = 10;
+    this._danger = 10;
+    this._value = 100;
+    this._speed = 1.5;
   }
 
   directDamage (damage) {
-    this.health -= damage;
+    this._health -= damage;
 
-    return this.health;
+    return this._health;
+  }
+
+  get value () {
+    return this._value;
   }
 
   get speed () {
-    return this.speed;
-  }
-
-  get isActive () {
-    return this.active;
-  }
-
-  // kill in action
-  kia () {
-    this.active = false;
+    return this._speed;
   }
 }

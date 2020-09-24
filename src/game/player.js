@@ -1,21 +1,28 @@
 export default class Player {
   constructor () {
-    this.active = true;
-    this.health = 100;
-    this.lifes = 3;
-    this.speed = 5;
+    this._health = 100;
+    this._lifes = 3;
+    this._speed = 5;
+    this._score = 0;
+  }
+
+  set health (damage) {
+    this._health -= damage;
+
+    return this._health;
+  }
+
+  get lifes () {
+    return this._lifes;
   }
 
   get speed () {
-    return this.speed;
+    return this._speed;
   }
 
-  get isActive () {
-    return this.active;
-  }
+  score (points) {
+    this._score += points;
 
-  // kill in action
-  kia () {
-    this.active = false;
+    return this._score;
   }
 }

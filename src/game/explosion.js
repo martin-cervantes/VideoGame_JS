@@ -1,9 +1,10 @@
 export default class Explosion {
   constructor () {
-    this.active = true;
+    this._active = true;
+    this._danger = 50;
   }
 
   get isActive () {
-    return this.active;
+    return this._active;
   }
 }
