@@ -16,7 +16,6 @@ export default class GameScene extends Phaser.Scene {
     this.time = 0;
     this.enemies = [];
     this.projectiles = [];
-    this.explosions = [];
   }
 
   preload () {
@@ -63,10 +62,6 @@ export default class GameScene extends Phaser.Scene {
       frameRate: 20,
       repeat: 0
     });
-    this.explosion = new Explosion();
-    this.explosion.animation = this.physics.add.sprite(100, 100, 'explosionAnimation');
-    this.explosion.animation.anims.play('explosion', false);
-    this.explosion.animation.on('animationcomplete', () => this.explosion.animation.destroy());
   }
 
   addEnemies() {
@@ -87,7 +82,11 @@ export default class GameScene extends Phaser.Scene {
     this.projectiles.push(laser);
   }
 
-  addExplosions() {
+  addExplosions(x, y) {
+    const explosion = new Explosion();
+    explosion.animation = this.physics.add.sprite(x, y, 'explosionAnimation');
+    explosion.animation.anims.play('explosion', true);
+    explosion.animation.on('animationcomplete', () => this.explosion.animation.destroy());
   }
 
   update() {
@@ -155,6 +154,26 @@ export default class GameScene extends Phaser.Scene {
   }
 
   updateCollisions() {
+    this.projectiles.forEach((p, i) => {
+      this.enemies.forEach((e, i) => {
+        if (this.Collision(p, e)) {
+          p.img.destroy();
+          return;
+          // e.animation.destroy();
+          // this.enemies.splice(i, 1);
+        }
+      });
+    });
+  }
+
+  Collision (projectile, enemy) {
+    if (projectile.img.x + 22 >= enemy.animation.x - 22 &&
+        projectile.img.x + 22 <= enemy.animation.x &&
+        projectile.img.y >= enemy.animation.y - 35 &&
+        projectile.img.y <= enemy.animation.y + 38) {
+      return true;
+    }
+    return false;
   }
 
   updateExplosions() {
