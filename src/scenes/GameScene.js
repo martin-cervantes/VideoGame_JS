@@ -14,8 +14,9 @@ export default class GameScene extends Phaser.Scene {
   init() {
     this.cursorKeys = this.input.keyboard.createCursorKeys();
     this.space = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+    this.enter = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
 
-    this.time = 0;
+    this.timer = 0;
     this.enemies = [];
     this.projectiles = [];
   }
@@ -126,26 +127,31 @@ export default class GameScene extends Phaser.Scene {
     if (Phaser.Input.Keyboard.JustDown(this.space)) {
       this.addProjectiles(this.player.x + 65, this.player.y);
     }
+
+    if (Phaser.Input.Keyboard.JustDown(this.enter)) {
+      this.scene.pause('Game');
+      this.scene.launch('Pause');
+    }
   }
 
   updatePlayer() {
   }
 
   updateEnemies() {
-    this.time += 1;
+    this.timer += 1;
 
     const dif = 200; // Math.floor(150 / (this.player.score / 500 + 1));
 
-    if (this.time % dif === 0) this.addEnemies();
+    if (this.timer % 200 === 0) this.addEnemies();
 
     this.enemies.forEach( (e, i) => {
       e.x -= e.speed;
 
       if (e.x < 0) {
-        this.player.directDamage(10);
-
         e.destroy();
         this.enemies.splice(i, 1);
+
+        this.player.directDamage(10);
       }
     });
   }
@@ -166,12 +172,12 @@ export default class GameScene extends Phaser.Scene {
       this.enemies.forEach((e, j) => {
         if (p.checkCollision(e)) {
           if (e.directDamage(p.damage) <= 0) {
+            e.destroy();
+            this.enemies.splice(j, 1);
+
             this.addExplosions(e.x, e.y);
 
             this.player.calcScore(e.value);
-
-            e.destroy();
-            this.enemies.splice(j, 1);
           }
 
           p.destroy();
@@ -186,11 +192,10 @@ export default class GameScene extends Phaser.Scene {
     this.enemies.forEach((e, i) => {
       if (e.checkCollision(this.player)) {
         if (e.directDamage(this.player.directDamage(e.danger)) <= 0) {
+          e.destroy();
           this.enemies.splice(i, 1);
 
           this.addExplosions(e.x, e.y);
-
-          e.destroy();
           return;
         }
       }
@@ -205,7 +210,7 @@ export default class GameScene extends Phaser.Scene {
     }
 
     if (this.player.lifes == 0) {
-      this.cameras.main.fade(500);
+      this.cameras.main.fade(700);
 
       this.scene.start('Over');
       this.backgoundMusic.destroy();
