@@ -27,6 +27,8 @@ export default class GameScene extends Phaser.Scene {
   }
 
   create () {
+    this.cameras.main.resetFX();
+
     this.backgoundMusic = new Sound(this, this.sound, 'gameMusic', true);
     this.backgoundMusic.play();
 
@@ -103,7 +105,11 @@ export default class GameScene extends Phaser.Scene {
 
     this.updateProjectiles();
 
-    this.updateCollisions();
+    this.checkPE_Collisions();
+
+    this.checkEP_Collisions();
+
+    this.checkPlayerHealth();
   }
 
   handleInput () {
@@ -130,7 +136,7 @@ export default class GameScene extends Phaser.Scene {
   updateEnemies() {
     this.time += 1;
 
-    const dif = 150; // Math.floor(150 / (this.player.score / 500 + 1));
+    const dif = 200; // Math.floor(150 / (this.player.score / 500 + 1));
 
     if (this.time % dif === 0) this.addEnemies();
 
@@ -138,6 +144,8 @@ export default class GameScene extends Phaser.Scene {
       e.x -= e.speed;
 
       if (e.x < 0) {
+        this.player.directDamage(10);
+
         e.destroy();
         this.enemies.splice(i, 1);
       }
@@ -155,14 +163,14 @@ export default class GameScene extends Phaser.Scene {
     });
   }
 
-  updateCollisions() {
+  checkPE_Collisions() {
     this.projectiles.forEach((p, i) => {
       this.enemies.forEach((e, j) => {
         if (p.checkCollision(e)) {
           if (e.directDamage(p.damage) <= 0) {
             this.addExplosions(e.x, e.y);
 
-            this.scoreLabel.setText('Score: ' + this.player.calcScore(e.value));
+            this.player.calcScore(e.value);
 
             e.destroy();
             this.enemies.splice(j, 1);
@@ -174,5 +182,38 @@ export default class GameScene extends Phaser.Scene {
         }
       });
     });
+  }
+
+  checkEP_Collisions() {
+    this.enemies.forEach((e, i) => {
+      if (e.checkCollision(this.player)) {
+        if (e.directDamage(this.player.directDamage(e.danger)) <= 0) {
+          this.enemies.splice(i, 1);
+
+          this.addExplosions(e.x, e.y);
+
+          e.destroy();
+          return;
+        }
+      }
+    });
+  }
+
+  checkPlayerHealth () {
+    if (this.player.health <= 0) {
+      this.player.renewal();
+
+      this.cameras.main.shake(500);
+    }
+
+    if (this.player.lifes == 0) {
+      this.cameras.main.fade(500);
+
+      this.scene.start('Over');
+    }
+
+    this.lifesLabel.setText('Lifes: ' + this.player.lifes);
+    this.healthLabel.setText('Health: ' + this.player.health);
+    this.scoreLabel.setText('Score: ' + this.player.score);
   }
 };

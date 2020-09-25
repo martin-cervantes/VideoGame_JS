@@ -9,10 +9,19 @@ export default class Player extends Phaser.GameObjects.Sprite {
     this._score = 0;
   }
 
-  set health (damage) {
-    this._health -= damage;
+  directDamage (damage) {
+    if (damage > 0) this._health -= damage;
 
     return this._health;
+  }
+
+  get health () {
+    return this._health;
+  }
+
+  renewal () {
+    this._lifes -= 1;
+    this._health = 100;
   }
 
   get lifes () {
