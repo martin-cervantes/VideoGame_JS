@@ -70,7 +70,7 @@ export default class PreloaderScene extends Phaser.Scene {
     this.timedEvent = this.time.delayedCall(200, this.ready, [], this);
 
     // load assets needed in our game
-    this.load.audio('gameMusic', gameMusic);
+    this.load.audio('menuMusic', menuMusic);
     this.load.audio('gameMusic', gameMusic);
     this.load.audio('laserFire', laserFire);
     this.load.audio('explosionSound', explosionSound);
@@ -101,7 +101,7 @@ export default class PreloaderScene extends Phaser.Scene {
   ready () {
     this.readyCount++;
     if (this.readyCount === 2) {
-      this.scene.start('Game');
+      this.scene.start('Title');
     }
   }
 };

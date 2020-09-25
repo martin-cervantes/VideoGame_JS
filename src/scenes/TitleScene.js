@@ -1,5 +1,7 @@
 import 'phaser';
 
+import Sound from '../game/sound';
+
 export default class TitleScene extends Phaser.Scene {
   constructor () {
     super('Title');
@@ -10,10 +12,14 @@ export default class TitleScene extends Phaser.Scene {
   }
 
   create () {
+    this.backgoundMusic = new Sound(this, this.sound, 'menuMusic', true);
+    this.backgoundMusic.play();
+
     this.btnPlay = this.add.sprite(400, 260, 'btnPlay').setInteractive();
 
     this.btnPlay.on('pointerdown', function (pointer) {
        this.scene.start('Game');
+       this.backgoundMusic.destroy();
     }.bind(this));
 
     this.btnPlay.on('pointerover', (event) => {

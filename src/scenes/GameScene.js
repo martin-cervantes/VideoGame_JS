@@ -27,8 +27,6 @@ export default class GameScene extends Phaser.Scene {
   }
 
   create () {
-    this.cameras.main.resetFX();
-
     this.backgoundMusic = new Sound(this, this.sound, 'gameMusic', true);
     this.backgoundMusic.play();
 
@@ -210,6 +208,7 @@ export default class GameScene extends Phaser.Scene {
       this.cameras.main.fade(500);
 
       this.scene.start('Over');
+      this.backgoundMusic.destroy();
     }
 
     this.lifesLabel.setText('Lifes: ' + this.player.lifes);

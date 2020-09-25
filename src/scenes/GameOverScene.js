@@ -10,5 +10,10 @@ export default class GameOverScene extends Phaser.Scene {
   }
 
   create () {
+    this.timedEvent = this.time.delayedCall(3000, this.next, [], this);
+  }
+
+  next () {
+    this.scene.start('HighScores');
   }
 };
