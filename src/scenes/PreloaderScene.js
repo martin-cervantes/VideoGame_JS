@@ -17,6 +17,8 @@ import btnOptions from '../assets/img/btnOptions.png';
 import btnOptions0 from '../assets/img/btnOptions0.png';
 import btnCredits from '../assets/img/btnCredits.png';
 import btnCredits0 from '../assets/img/btnCredits0.png';
+import btnBack from '../assets/img/btnBack.png';
+import btnBack0 from '../assets/img/btnBack0.png';
 
 import shipAnimation from '../assets/img/shipAnimation.png';
 import mineAnimation from '../assets/img/mineAnimation.png';
@@ -88,6 +90,8 @@ export default class PreloaderScene extends Phaser.Scene {
     this.load.image('btnOptions0', btnOptions0);
     this.load.image('btnCredits', btnCredits);
     this.load.image('btnCredits0', btnCredits0);
+    this.load.image('btnBack', btnBack);
+    this.load.image('btnBack0', btnBack0);
 
     this.load.spritesheet('shipAnimation', shipAnimation, { frameWidth: 115, frameHeight: 69 });
     this.load.spritesheet('mineAnimation', mineAnimation, { frameWidth: 47, frameHeight: 61 });

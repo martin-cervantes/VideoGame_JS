@@ -11,5 +11,19 @@ export default class CreditsScene extends Phaser.Scene {
 
   create () {
     this.creditsText = this.add.text(0, 0, 'Credits', { fontSize: '32px', fill: '#fff' });
+
+    this.btnBack = this.add.sprite(650, 420, 'btnBack').setInteractive();
+
+    this.btnBack.on('pointerdown', function (pointer) {
+      this.scene.switch('Title');
+    }.bind(this));
+
+    this.btnBack.on('pointerover', (event) => {
+      this.btnBack.setTexture('btnBack0');
+    });
+
+    this.btnBack.on('pointerout', (event) => {
+      this.btnBack.setTexture('btnBack');
+    });
   }
 };

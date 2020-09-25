@@ -10,7 +10,7 @@ export default class GameOverScene extends Phaser.Scene {
   }
 
   create () {
-    this.timedEvent = this.time.delayedCall(3000, this.next, [], this);
+    this.timedEvent = this.time.delayedCall(5000, this.next, [], this);
   }
 
   next () {

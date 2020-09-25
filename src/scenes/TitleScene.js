@@ -33,7 +33,7 @@ export default class TitleScene extends Phaser.Scene {
     this.btnOptions = this.add.sprite(400, 320, 'btnOptions').setInteractive();
 
     this.btnOptions.on('pointerdown', function (pointer) {
-       this.scene.start('Options');
+      this.scene.switch('Options');
     }.bind(this));
 
     this.btnOptions.on('pointerover', (event) => {
@@ -47,7 +47,7 @@ export default class TitleScene extends Phaser.Scene {
     this.btnCredits = this.add.sprite(400, 380, 'btnCredits').setInteractive();
 
     this.btnCredits.on('pointerdown', function (pointer) {
-       this.scene.start('Credits');
+       this.scene.switch('Credits');
     }.bind(this));
 
     this.btnCredits.on('pointerover', (event) => {
