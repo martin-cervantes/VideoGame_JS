@@ -135,7 +135,7 @@ export default class GameScene extends Phaser.Scene {
   updateEnemies() {
     this.timer += 1;
 
-    const dif = 200; // Math.floor(150 / (this.player.score / 500 + 1));
+    const dif = 200;
 
     if (this.timer % 200 === 0) this.addEnemies();
 

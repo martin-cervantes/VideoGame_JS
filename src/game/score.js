@@ -16,12 +16,12 @@ export default class Score {
       headers: { 'Content-Type': 'application/json' },
     });
     const result = await response.json();
-    this._result = result.result;
+    return this._result = result.result;
   };
 
   async getScores () {
     const response = await fetch(this._url, { mode: 'cors' });
     const result = await response.json();
-    this._result = result.result;
+    return this._result = result.result;
   };
 };

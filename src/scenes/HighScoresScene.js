@@ -10,6 +10,7 @@ export default class HighScoresScene extends Phaser.Scene {
     this.highScores = JSON.parse(localStorage.getItem('scores'));
     this.user = localStorage.getItem('user');
     this.score = parseInt(localStorage.getItem('score'));
+
     this.newScore = { user: this.user, score: this.score };
     this.highScores.push(this.newScore);
 
