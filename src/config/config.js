@@ -12,5 +12,8 @@ export default {
   parent: "VideoGame_JS",
   width: 800,
   height: 480,
-  physics: physicsConfig
+  physics: physicsConfig,
+  dom: {
+        createContainer: true
+    },
 };
