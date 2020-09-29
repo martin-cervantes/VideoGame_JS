@@ -1,11 +1,18 @@
 # VideoGame JS
+This project consists of building a video game using JavaScript (ES6) and the Phaser game engine. An encapsulation in modules was carried out through Webpack. Player scores are tracked and sent to the Leaderboard API. And finally, the test of some units was carried out using Jest.
 
 ![screenshot](./Screenshot.png)
 
+![screenshot](./Screenshot1.png)
+
+![screenshot](./Screenshot2.png)
+
 ## :package: Built With
 
+- Javascript (ES6)
 - Phaser
 - Webpack
+- Jest
 
 ## :mag: Live Demo
 
@@ -52,6 +59,12 @@ Builds code bundle with production settings (minification, uglification, etc..)
 
 ```sh
   $ npm run build
+```
+
+Run testing cases and Jest will print messages depending on the result
+
+```sh
+  $ npm run test
 ```
 
 ## :busts_in_silhouette: Authors
