@@ -40,7 +40,7 @@ export default class TitleScene extends Phaser.Scene {
       const text = inputText.text;
 
       if (text !== '') {
-        localStorage.setItem('name', text);
+        localStorage.setItem('user', text);
         this.scene.start('Game');
         this.backgoundMusic.destroy();
       } else {

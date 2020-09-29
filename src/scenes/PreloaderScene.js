@@ -63,7 +63,7 @@ export default class PreloaderScene extends Phaser.Scene {
       this.ready();
     }.bind(this));
 
-    this.timedEvent = this.time.delayedCall(200, this.ready, [], this);
+    this.timedEvent = this.time.delayedCall(2000, this.ready, [], this);
 
     // load assets needed in our game
     this.load.audio('menuMusic', menuMusic);

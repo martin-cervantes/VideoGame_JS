@@ -98,8 +98,6 @@ export default class GameScene extends Phaser.Scene {
   update() {
     this.handleInput();
 
-    this.updatePlayer();
-
     this.updateEnemies();
 
     this.updateProjectiles();
@@ -132,9 +130,6 @@ export default class GameScene extends Phaser.Scene {
       this.scene.pause('Game');
       this.scene.launch('Pause');
     }
-  }
-
-  updatePlayer() {
   }
 
   updateEnemies() {
@@ -210,6 +205,7 @@ export default class GameScene extends Phaser.Scene {
     }
 
     if (this.player.lifes == 0) {
+      localStorage.setItem('score', this.player.score);
       this.cameras.main.fade(700);
 
       this.scene.start('Over');
