@@ -16,7 +16,7 @@ This project consists of building a video game using JavaScript (ES6) and the Ph
 
 ## :mag: Live Demo
 
-[Live Demo Link](https://mcervantes71.github.io/VideoGame_JS/)
+[Live Demo Link](https://videogame-js.netlify.app/)
 
 ## :computer: Getting Started
 
