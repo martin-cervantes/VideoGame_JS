@@ -1,4 +1,4 @@
-import 'phaser';
+import Phaser from 'phaser';
 import menuMusic from '../assets/audio/menuMusic.mp3';
 import gameMusic from '../assets/audio/gameMusic.mp3';
 import laserFire from '../assets/audio/laserFire.wav';

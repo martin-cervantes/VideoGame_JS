@@ -1,4 +1,4 @@
-import 'phaser';
+import Phaser from 'phaser';
 import InputText from 'phaser3-rex-plugins/plugins/inputtext';
 
 import Sound from '../game/sound';

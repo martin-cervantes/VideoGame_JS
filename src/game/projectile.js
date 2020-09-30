@@ -1,4 +1,6 @@
-export default class Projectile extends Phaser.GameObjects.Image  {
+import Phaser from 'phaser';
+
+export default class Projectile extends Phaser.GameObjects.Image {
   constructor(scene, x, y, texture) {
     super(scene, x, y, texture);
     scene.add.existing(this);

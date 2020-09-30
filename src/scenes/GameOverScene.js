@@ -1,4 +1,4 @@
-import 'phaser';
+import Phaser from 'phaser';
 import Score from '../game/score';
 
 export default class GameOverScene extends Phaser.Scene {

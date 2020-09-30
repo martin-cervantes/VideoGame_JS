@@ -1,4 +1,4 @@
-import 'phaser';
+import Phaser from 'phaser';
 import Player from '../game/player';
 import Projectile from '../game/projectile';
 import Enemy from '../game/enemy';
@@ -181,7 +181,6 @@ export default class GameScene extends Phaser.Scene {
 
           p.destroy();
           this.projectiles.splice(i, 1);
-          return;
         }
       });
     });
@@ -195,7 +194,6 @@ export default class GameScene extends Phaser.Scene {
           this.enemies.splice(i, 1);
 
           this.addExplosions(e.x, e.y);
-          return;
         }
       }
     });

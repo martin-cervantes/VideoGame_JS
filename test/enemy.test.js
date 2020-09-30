@@ -1,6 +1,6 @@
 import Enemy from '../src/game/enemy';
 
-const enemy = new Enemy(scene, 800, 200, 'mineAnimation');
+const enemy = new Enemy(800, 200, 'mineAnimation');
 
 test('Check enemy danger', () => {
   expect(enemy.danger).toBe(50);
