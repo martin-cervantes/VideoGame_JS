@@ -1,44 +1,44 @@
 export default class Player extends Phaser.GameObjects.Sprite {
-  constructor (scene, x, y, texture) {
+  constructor(scene, x, y, texture) {
     super(scene, x, y, texture);
     scene.add.existing(this);
 
-    this._health = 100;
-    this._lifes = 3;
-    this._speed = 5;
-    this._score = 0;
+    this.health = 100;
+    this.lifes = 3;
+    this.speed = 5;
+    this.score = 0;
   }
 
-  directDamage (damage) {
-    if (damage > 0) this._health -= damage;
+  directDamage(damage) {
+    if (damage > 0) this.health -= damage;
 
-    return this._health;
+    return this.health;
   }
 
-  get health () {
-    return this._health;
+  getHealth() {
+    return this.health;
   }
 
-  renewal () {
-    this._lifes -= 1;
-    this._health = 100;
+  renewal() {
+    this.lifes -= 1;
+    this.health = 100;
   }
 
-  get lifes () {
-    return this._lifes;
+  getLifes() {
+    return this.lifes;
   }
 
-  get speed () {
-    return this._speed;
+  getSpeed() {
+    return this.speed;
   }
 
-  get score () {
-    return this._score;
+  getScore() {
+    return this.score;
   }
 
-  calcScore (points) {
-    this._score += points;
+  calcScore(points) {
+    this.score += points;
 
-    return this._score;
+    return this.score;
   }
 }

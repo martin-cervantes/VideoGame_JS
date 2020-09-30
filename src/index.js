@@ -10,7 +10,7 @@ import GameOverScene from './scenes/GameOverScene';
 import HighScoresScene from './scenes/HighScoresScene';
 
 class Game extends Phaser.Game {
-  constructor () {
+  constructor() {
     super(config);
     this.scene.add('Boot', BootScene);
     this.scene.add('Preloader', PreloaderScene);

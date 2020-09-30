@@ -7,7 +7,7 @@ import Explosion from '../game/explosion';
 import Sound from '../game/sound';
 
 export default class GameScene extends Phaser.Scene {
-  constructor () {
+  constructor() {
     super('Game');
   }
 
@@ -21,13 +21,13 @@ export default class GameScene extends Phaser.Scene {
     this.projectiles = [];
   }
 
-  preload () {
+  preload() {
     this.bgLayer3 = this.add.tileSprite(400, 240, 0, 0, 'bgLayer3');
     this.bgLayer1 = this.add.tileSprite(400, 240, 800, 480, 'bgLayer1');
     this.bgLayer2 = this.add.tileSprite(400, 240, 800, 480, 'bgLayer2');
   }
 
-  create () {
+  create() {
     this.backgoundMusic = new Sound(this, this.sound, 'gameMusic', true);
     this.backgoundMusic.play();
 
@@ -42,7 +42,7 @@ export default class GameScene extends Phaser.Scene {
         end: 7,
       }),
       frameRate: 20,
-      repeat: -1
+      repeat: -1,
     });
     this.player = new Player(this, 60, 230, 'shipAnimation');
     this.player.anims.play('shipMove', true);
@@ -54,7 +54,7 @@ export default class GameScene extends Phaser.Scene {
         end: 7,
       }),
       frameRate: 20,
-      repeat: -1
+      repeat: -1,
     });
 
     this.anims.create({
@@ -64,12 +64,18 @@ export default class GameScene extends Phaser.Scene {
         end: 10,
       }),
       frameRate: 20,
-      repeat: 0
+      repeat: 0,
     });
 
-    this.lifesLabel = this.make.text({ x: 10, y: 5, text: 'Lifes: 3', style: { font: '20px monospace', fill: '#fff' } });
-    this.healthLabel = this.make.text({ x: 10, y: 30, text: 'Health: 100', style: { font: '20px monospace', fill: '#fff' } });
-    this.scoreLabel = this.make.text({ x: 10, y: 55, text: 'Score: 0', style: { font: '20px monospace', fill: '#fff' } });
+    this.lifesLabel = this.make.text({
+      x: 10, y: 5, text: 'Lifes: 3', style: { font: '20px monospace', fill: '#fff' },
+    });
+    this.healthLabel = this.make.text({
+      x: 10, y: 30, text: 'Health: 100', style: { font: '20px monospace', fill: '#fff' },
+    });
+    this.scoreLabel = this.make.text({
+      x: 10, y: 55, text: 'Score: 0', style: { font: '20px monospace', fill: '#fff' },
+    });
   }
 
   addEnemies() {
@@ -102,14 +108,14 @@ export default class GameScene extends Phaser.Scene {
 
     this.updateProjectiles();
 
-    this.checkPE_Collisions();
+    this.checkPeCollisions();
 
-    this.checkEP_Collisions();
+    this.checkEpCollisions();
 
     this.checkPlayerHealth();
   }
 
-  handleInput () {
+  handleInput() {
     if (this.cursorKeys.up.isDown && this.player.y > 35) {
       this.player.y -= this.player.speed;
     } else if (this.cursorKeys.down.isDown && this.player.y < 435) {
@@ -135,11 +141,9 @@ export default class GameScene extends Phaser.Scene {
   updateEnemies() {
     this.timer += 1;
 
-    const dif = 200;
-
     if (this.timer % 200 === 0) this.addEnemies();
 
-    this.enemies.forEach( (e, i) => {
+    this.enemies.forEach((e, i) => {
       e.x -= e.speed;
 
       if (e.x < 0) {
@@ -152,7 +156,7 @@ export default class GameScene extends Phaser.Scene {
   }
 
   updateProjectiles() {
-    this.projectiles.forEach( (p, i) => {
+    this.projectiles.forEach((p, i) => {
       p.x += p.speed;
 
       if (p.x > 800) {
@@ -162,7 +166,7 @@ export default class GameScene extends Phaser.Scene {
     });
   }
 
-  checkPE_Collisions() {
+  checkPeCollisions() {
     this.projectiles.forEach((p, i) => {
       this.enemies.forEach((e, j) => {
         if (p.checkCollision(e)) {
@@ -183,7 +187,7 @@ export default class GameScene extends Phaser.Scene {
     });
   }
 
-  checkEP_Collisions() {
+  checkEpCollisions() {
     this.enemies.forEach((e, i) => {
       if (e.checkCollision(this.player)) {
         if (e.directDamage(this.player.directDamage(e.danger)) <= 0) {
@@ -197,14 +201,14 @@ export default class GameScene extends Phaser.Scene {
     });
   }
 
-  checkPlayerHealth () {
+  checkPlayerHealth() {
     if (this.player.health <= 0) {
       this.player.renewal();
 
       this.cameras.main.shake(500);
     }
 
-    if (this.player.lifes == 0) {
+    if (this.player.lifes === 0) {
       localStorage.setItem('score', this.player.score);
       this.cameras.main.fade(700);
 
@@ -212,8 +216,8 @@ export default class GameScene extends Phaser.Scene {
       this.backgoundMusic.destroy();
     }
 
-    this.lifesLabel.setText('Lifes: ' + this.player.lifes);
-    this.healthLabel.setText('Health: ' + this.player.health);
-    this.scoreLabel.setText('Score: ' + this.player.score);
+    this.lifesLabel.setText(`Lifes: ${this.player.lifes}`);
+    this.healthLabel.setText(`Health: ${this.player.health}`);
+    this.scoreLabel.setText(`Score: ${this.player.score}`);
   }
-};
+}

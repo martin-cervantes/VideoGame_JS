@@ -1,8 +1,8 @@
 export default class Explosion extends Phaser.GameObjects.Sprite {
-  constructor (scene, x, y, texture) {
+  constructor(scene, x, y, texture) {
     super(scene, x, y, texture);
     scene.add.existing(this);
 
-    this._danger = 50;
+    this.danger = 50;
   }
 }
