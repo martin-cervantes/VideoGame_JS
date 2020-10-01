@@ -3,7 +3,7 @@ const path = require('path');
 module.exports = {
   mode: 'development',
   entry: [
-    'regenerator-runtime/runtime',
+    "@babel/polyfill",
     './src/index.js',
   ],
   output: {
