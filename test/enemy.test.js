@@ -12,7 +12,7 @@ class Game extends Phaser.Game {
   }
 
   create() {
-    enemy = new Enemy(800, 200, 'mineAnimation');
+    enemy = new Enemy(this, 800, 200, 'mineAnimation');
   }
 }
 

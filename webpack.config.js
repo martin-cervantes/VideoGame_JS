@@ -3,7 +3,7 @@ const path = require('path');
 module.exports = {
   mode: 'development',
   entry: [
-    "@babel/polyfill",
+    '@babel/polyfill',
     './src/index.js',
   ],
   output: {

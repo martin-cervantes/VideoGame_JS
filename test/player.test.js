@@ -19,7 +19,6 @@ class Game extends Phaser.Game {
 window.game = new Game();
 
 test('Check player health', () => {
-
   expect(player.health).not.toBe(80);
 });
 
