@@ -3,6 +3,8 @@ import config from './config/config';
 
 import './css/style.css';
 
+import logo from './assets/img/phaserLogo.png';
+
 import BootScene from './scenes/BootScene';
 import PreloaderScene from './scenes/PreloaderScene';
 import TitleScene from './scenes/TitleScene';
@@ -25,5 +27,11 @@ class Game extends Phaser.Game {
     this.scene.start('Boot');
   }
 }
+
+const icon = document.querySelector("link[rel*='icon']") || document.createElement('link');
+icon.type = 'image/x-icon';
+icon.rel = 'shortcut icon';
+icon.href = logo;
+document.getElementsByTagName('head')[0].appendChild(icon);
 
 window.game = new Game();
